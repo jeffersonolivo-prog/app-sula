@@ -1,0 +1,5 @@
+{
+  "name": "Excel Multi-Sheet Consolidator",
+  "description": "A powerful utility to upload Excel files, scan all sheets, and consolidate data from specific columns (Column B, Row 4+) into a single unified list with AI-powered analysis.",
+  "requestFramePermissions": []
+}
