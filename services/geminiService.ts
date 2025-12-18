@@ -3,9 +3,8 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { ConsolidatedData, AIAnalysisResult } from "../types";
 
 export const analyzeConsolidatedData = async (data: ConsolidatedData[]): Promise<AIAnalysisResult> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
   
-  // We send a sample if the data is too large to avoid token limits
   const sampleData = data.slice(0, 100).map(d => d.value).join(", ");
   
   const prompt = `Analise os seguintes dados consolidados de uma planilha Excel (mostrando apenas os primeiros 100 itens se houver mais):
@@ -39,5 +38,10 @@ export const analyzeConsolidatedData = async (data: ConsolidatedData[]): Promise
     }
   });
 
-  return JSON.parse(response.text);
+  const text = response.text;
+  if (!text) {
+    throw new Error("A IA não retornou uma resposta válida.");
+  }
+
+  return JSON.parse(text);
 };
